@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Routes, Route, Link, useParams
+  Routes, Route, Link, useParams, useNavigate
 } from 'react-router-dom'
 
 
@@ -10,6 +10,9 @@ const Menu = ({ anecdotes, addNew }) => {
   const padding = {
     paddingRight: 5
   }
+
+  const [notification, setNotification] = useState(null)
+
   return (
     <Router>
       <div>
@@ -19,17 +22,24 @@ const Menu = ({ anecdotes, addNew }) => {
       </div>
       <Routes>
         <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} />} />
-        <Route path="/" element={<AnecdoteList anecdotes={anecdotes}/>} />
-        <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} notification={notification}/>} />
+        <Route path="/create" element={<CreateNew addNew={addNew} setNotification={setNotification} />} />
         <Route path="/about" element={<About />} />
       </Routes>
+      <Notification />
 
     </Router>
   )
 }
 
-const AnecdoteList = ({ anecdotes }) => (
+const Notification = ({ notification }) => (
+
+  notification && <p>a new anecdote "{notification}" created!</p>
+)
+
+const AnecdoteList = ({ anecdotes, notification }) => (
   <div>
+    <Notification notification={notification} />
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote =>
@@ -81,15 +91,21 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.addNew({
+
+    const newAnecdote = {
       content,
       author,
       info,
       votes: 0
-    })
+    }
+    props.addNew(newAnecdote)
+    props.setNotification(newAnecdote.content)
+    setTimeout(() => {props.setNotification(null)}, 5000)
+    navigate('/')
   }
 
   return (
