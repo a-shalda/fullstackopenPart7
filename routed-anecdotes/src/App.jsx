@@ -103,12 +103,18 @@ const CreateNew = (props) => {
       info: urlField.value,
       votes: 0
     }
-    console.log(newAnecdote)
     props.addNew(newAnecdote)
     props.setNotification(newAnecdote.content)
     setTimeout(() => {props.setNotification(null)}, 5000)
     navigate('/')
   }
+
+  const handleClick = () => {
+    contentField.reset()
+    authorField.reset()
+    urlField.reset()
+  }
+
 
   return (
     <div>
@@ -126,7 +132,8 @@ const CreateNew = (props) => {
           url for more info
           <input {...urlField} />
         </div>
-        <button>create</button>
+        <button type='submit'>create</button>
+        <button type='button' onClick={handleClick}>reset</button>
       </form>
     </div>
   )
