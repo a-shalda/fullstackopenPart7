@@ -6,22 +6,27 @@ import Login from './components/Login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { setNotification } from './reducers/notificationReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setBlogs, createBlog, initializeBlogs, deleteBlog } from './reducers/blogReducer'
 
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const dispatch = useDispatch()
 
   const blogFormRef = useRef()
 
+  const blogs = useSelector(state => state.blogs)
+
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      blogs = blogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(blogs)
+      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+      dispatch(initializeBlogs(sortedBlogs))
     })
-  }, [])
+      .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
+
+  }, [dispatch])
+
 
   const sortBlogs = (id, increasedLikes) => {
 
@@ -40,7 +45,7 @@ const App = () => {
     })
 
     const sortedUpdatedBlogs = updatedBlogs.sort((a, b) => b.likes - a.likes)
-    setBlogs(sortedUpdatedBlogs)
+    dispatch(setBlogs(sortedUpdatedBlogs))
   }
 
   useEffect(() => {
@@ -54,24 +59,7 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
-
-    try {
-      const blog = await blogService.create(blogObject)
-      const updatedBlog = {
-        author: blog.author,
-        id: blog.id,
-        likes: blog.likes,
-        title: blog.title,
-        url: blog.url,
-        user: {
-          name: user.name
-        }
-      }
-
-      setBlogs(blogs.concat(updatedBlog))
-      dispatch(setNotification([`A new blog ${blogObject.title} by ${blogObject.author} added`, 'success'], 5000))
-
-    } catch {dispatch(setNotification(['Invalid blog', 'error'], 5000))}
+    dispatch(createBlog(blogObject, user))
   }
 
   const revokeToken = () => {
@@ -82,12 +70,7 @@ const App = () => {
 
   const deleteThisBlog = async (id, title) => {
     const updatedBlogs = blogs.filter(blog => blog.id !== id)
-    if (window.confirm(`Removing blog ${title}`)) {
-      try {
-        await blogService.deleteBlog(id)
-        setBlogs(updatedBlogs)
-      } catch {dispatch(setNotification(['You can remove only your blogs', 'error'], 5000))}
-    }
+    if (window.confirm(`Removing blog ${title}`)) dispatch(deleteBlog(id, updatedBlogs))
   }
 
   return (
@@ -113,7 +96,7 @@ const App = () => {
             <CreateNewBlog
               addBlog={addBlog}
               blogs={blogs}
-              setBlogs={setBlogs} />
+            />
           </Togglable>
 
         </div>
