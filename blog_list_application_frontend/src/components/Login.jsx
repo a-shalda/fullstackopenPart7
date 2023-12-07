@@ -2,9 +2,12 @@ import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { setNotification } from '../reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
-const Login = ({ setUser, setMessage, setMessageClassName }) => {
+const Login = ({ setUser }) => {
 
+  const dispatch = useDispatch()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -20,17 +23,10 @@ const Login = ({ setUser, setMessage, setMessageClassName }) => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      setMessage('Wrong credentials')
-      setMessageClassName('error')
-      setUsername('')
-      setPassword('')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    }
+    } catch (exception) {dispatch(setNotification(['Wrong credentials', 'error'], 5000))}
+
+    setUsername('')
+    setPassword('')
   }
 
   return (
@@ -62,8 +58,6 @@ const Login = ({ setUser, setMessage, setMessageClassName }) => {
 
 Login.propTypes = {
   setUser: PropTypes.func.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setMessageClassName: PropTypes.func.isRequired,
 }
 
 export default Login

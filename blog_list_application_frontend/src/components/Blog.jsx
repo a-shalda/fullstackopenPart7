@@ -2,9 +2,13 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import BlogContent from './BlogContent'
 import PropTypes from 'prop-types'
+import { setNotification } from '../reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
 
-const Blog = ({ blog, setMessage, setMessageClassName, deleteThisBlog, user, sortBlogs }) => {
+const Blog = ({ blog, deleteThisBlog, user, sortBlogs }) => {
+
+  const dispatch = useDispatch()
 
   let initialLikes = 0
   blog.likes && (initialLikes = blog.likes)
@@ -15,9 +19,7 @@ const Blog = ({ blog, setMessage, setMessageClassName, deleteThisBlog, user, sor
   let buttonLabel = ''
   !viewBlog ? buttonLabel='view' : buttonLabel='hide'
 
-  const toggleViewBlog = () => {
-    setViewBlog(!viewBlog)
-  }
+  const toggleViewBlog = () => setViewBlog(!viewBlog)
 
   const addLike = async () => {
     const updatedBlog = { likes: likes + 1 }
@@ -26,13 +28,7 @@ const Blog = ({ blog, setMessage, setMessageClassName, deleteThisBlog, user, sor
       await blogService.update(blog.id, updatedBlog)
       setLikes(likes + 1)
       sortBlogs(blog.id, likes + 1)
-    } catch {
-      setMessage('Only logged in users can update blogs')
-      setMessageClassName('error')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    }
+    } catch {dispatch(setNotification(['Only logged in users can update blogs', 'error'], 5000))}
   }
 
   const showDelete = (
@@ -68,10 +64,8 @@ const Blog = ({ blog, setMessage, setMessageClassName, deleteThisBlog, user, sor
   />
 }
 
-// Blog.propTypes = {
-//   deleteThisBlog: PropTypes.func.isRequired,
-//   setMessage: PropTypes.func.isRequired,
-//   setMessageClassName: PropTypes.func.isRequired,
-// }
+Blog.propTypes = {
+  deleteThisBlog: PropTypes.func.isRequired,
+}
 
 export default Blog

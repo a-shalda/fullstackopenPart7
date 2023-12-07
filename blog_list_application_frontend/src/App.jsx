@@ -5,13 +5,14 @@ import CreateNewBlog from './components/CreateNewBlog'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import { setNotification } from './reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
-  const [messageClassName, setMessageClassName] = useState('')
+  const dispatch = useDispatch()
 
   const blogFormRef = useRef()
 
@@ -66,19 +67,11 @@ const App = () => {
           name: user.name
         }
       }
+
       setBlogs(blogs.concat(updatedBlog))
-      setMessage(`A new blog ${blogObject.title} by ${blogObject.author} added`)
-      setMessageClassName('success')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    } catch {
-      setMessage('Invalid blog')
-      setMessageClassName('error')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    }
+      dispatch(setNotification([`A new blog ${blogObject.title} by ${blogObject.author} added`, 'success'], 5000))
+
+    } catch {dispatch(setNotification(['Invalid blog', 'error'], 5000))}
   }
 
   const revokeToken = () => {
@@ -93,31 +86,18 @@ const App = () => {
       try {
         await blogService.deleteBlog(id)
         setBlogs(updatedBlogs)
-      } catch {
-        setMessage('You can remove only your blogs')
-        setMessageClassName('error')
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
-      }
+      } catch {dispatch(setNotification(['You can remove only your blogs', 'error'], 5000))}
     }
   }
 
   return (
     <div>
       <h2>Blogs</h2>
-      <Notification
-        message={message}
-        messageClassName={messageClassName}
-      />
+      <Notification />
 
       {user === null &&
         <Togglable buttonLabel='log in'>
-          <Login
-            setUser={setUser}
-            setMessage={setMessage}
-            setMessageClassName={setMessageClassName}
-          />
+          <Login setUser={setUser} />
         </Togglable>
       }
       {user &&
@@ -133,10 +113,7 @@ const App = () => {
             <CreateNewBlog
               addBlog={addBlog}
               blogs={blogs}
-              setBlogs={setBlogs}
-              setMessage={setMessage}
-              setMessageClassName={setMessageClassName}
-            />
+              setBlogs={setBlogs} />
           </Togglable>
 
         </div>
@@ -146,8 +123,6 @@ const App = () => {
           key={blog.id}
           blog={blog}
           user={user}
-          setMessage={setMessage}
-          setMessageClassName={setMessageClassName}
           deleteThisBlog={deleteThisBlog}
           sortBlogs={sortBlogs}
         />
