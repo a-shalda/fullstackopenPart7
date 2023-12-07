@@ -19,9 +19,10 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
 
   useEffect(() => {
+    console.log('first')
     blogService.getAll().then(blogs => {
       const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
-      dispatch(initializeBlogs(sortedBlogs))
+      dispatch(setBlogs(sortedBlogs))
     })
       .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
 
