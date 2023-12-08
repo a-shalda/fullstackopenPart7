@@ -7,19 +7,19 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { setNotification } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { setBlogs, createBlog, initializeBlogs, deleteBlog } from './reducers/blogReducer'
+import { setBlogs, createBlog, deleteBlog } from './reducers/blogReducer'
+import { setUser } from './reducers/userReducer'
 
 
 const App = () => {
-  const [user, setUser] = useState(null)
   const dispatch = useDispatch()
 
   const blogFormRef = useRef()
 
   const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
 
   useEffect(() => {
-    console.log('first')
     blogService.getAll().then(blogs => {
       const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
       dispatch(setBlogs(sortedBlogs))
@@ -28,9 +28,7 @@ const App = () => {
 
   }, [dispatch])
 
-
   const sortBlogs = (id, increasedLikes) => {
-
     const updatedBlogs = blogs.map(blog => {
       if (blog.id === id) {
         const updatedBlog = {
@@ -44,7 +42,6 @@ const App = () => {
       }
       return blog
     })
-
     const sortedUpdatedBlogs = updatedBlogs.sort((a, b) => b.likes - a.likes)
     dispatch(setBlogs(sortedUpdatedBlogs))
   }
@@ -53,10 +50,10 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [dispatch])
 
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
@@ -66,7 +63,7 @@ const App = () => {
   const revokeToken = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     blogService.setToken(null)
-    setUser(null)
+    dispatch(setUser(null))
   }
 
   const deleteThisBlog = async (id, title) => {
@@ -81,7 +78,7 @@ const App = () => {
 
       {user === null &&
         <Togglable buttonLabel='log in'>
-          <Login setUser={setUser} />
+          <Login />
         </Togglable>
       }
       {user &&

@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
-import PropTypes from 'prop-types'
 import { setNotification } from '../reducers/notificationReducer'
 import { useDispatch } from 'react-redux'
+import { setUser } from '../reducers/userReducer'
 
-const Login = ({ setUser }) => {
+const Login = () => {
 
   const dispatch = useDispatch()
   const [username, setUsername] = useState('')
@@ -22,7 +22,7 @@ const Login = ({ setUser }) => {
         'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
     } catch (exception) {dispatch(setNotification(['Wrong credentials', 'error'], 5000))}
 
     setUsername('')
@@ -54,10 +54,6 @@ const Login = ({ setUser }) => {
       <button type="submit" id="login-button">log in</button>
     </form>
   )
-}
-
-Login.propTypes = {
-  setUser: PropTypes.func.isRequired,
 }
 
 export default Login

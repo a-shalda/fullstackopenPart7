@@ -40,17 +40,17 @@ export const deleteBlog = (id, updatedBlogs) => {
   }
 }
 
-export const initializeBlogs = (blogs) => {
-  return async dispatch => {
-    try {
-      const blogs = await blogService.getAll()
-      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
-      dispatch(setBlogs(sortedBlogs))
-    } catch {
-      dispatch(setNotification(['Network error', 'error'], 5000))
-    }
-  }
-}
+// export const initializeBlogs = (blogs) => {
+//   return async dispatch => {
+//     try {
+//       const blogs = await blogService.getAll()
+//       const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+//       dispatch(setBlogs(sortedBlogs))
+//     } catch {
+//       dispatch(setNotification(['Network error', 'error'], 5000))
+//     }
+//   }
+// }
 
 export const createBlog = (object, user) => {
   return async dispatch => {
