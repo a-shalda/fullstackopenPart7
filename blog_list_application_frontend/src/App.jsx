@@ -3,6 +3,7 @@ import blogService from './services/blogs'
 import Blog from './components/Blog'
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
+import Users from './components/Users'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -57,6 +58,8 @@ const App = () => {
           <Togglable buttonLabel='new blog' ref={blogFormRef}>
             <CreateNewBlog toggleCreate={toggleCreate} />
           </Togglable>
+
+          <Users />
 
         </div>
       }
