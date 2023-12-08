@@ -1,23 +1,25 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import Blog from './components/Blog'
 import CreateNewBlog from './components/CreateNewBlog'
+import LoggedIn from './components/LoggedIn'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { setNotification } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { setBlogs, createBlog, deleteBlog } from './reducers/blogReducer'
+import { setBlogs } from './reducers/blogReducer'
 import { setUser } from './reducers/userReducer'
 
 
 const App = () => {
+
+  const user = useSelector(state => state.user)
+  const blogs = useSelector(state => state.blogs)
   const dispatch = useDispatch()
 
   const blogFormRef = useRef()
-
-  const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.user)
+  const toggleCreate = () => blogFormRef.current.toggleVisibility()
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
@@ -28,24 +30,6 @@ const App = () => {
 
   }, [dispatch])
 
-  const sortBlogs = (id, increasedLikes) => {
-    const updatedBlogs = blogs.map(blog => {
-      if (blog.id === id) {
-        const updatedBlog = {
-          ...blog,
-          likes: increasedLikes,
-          user: {
-            ...user
-          }
-        }
-        return updatedBlog
-      }
-      return blog
-    })
-    const sortedUpdatedBlogs = updatedBlogs.sort((a, b) => b.likes - a.likes)
-    dispatch(setBlogs(sortedUpdatedBlogs))
-  }
-
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -55,58 +39,29 @@ const App = () => {
     }
   }, [dispatch])
 
-  const addBlog = async (blogObject) => {
-    blogFormRef.current.toggleVisibility()
-    dispatch(createBlog(blogObject, user))
-  }
-
-  const revokeToken = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    blogService.setToken(null)
-    dispatch(setUser(null))
-  }
-
-  const deleteThisBlog = async (id, title) => {
-    const updatedBlogs = blogs.filter(blog => blog.id !== id)
-    if (window.confirm(`Removing blog ${title}`)) dispatch(deleteBlog(id, updatedBlogs))
-  }
 
   return (
     <div>
       <h2>Blogs</h2>
       <Notification />
 
-      {user === null &&
+      {!user &&
         <Togglable buttonLabel='log in'>
           <Login />
         </Togglable>
       }
       {user &&
         <div>
-          <p>{user.name} logged in</p>
-          <button
-            onClick={revokeToken}
-          >Log out
-          </button>
-          <h2>create new</h2>
+          <LoggedIn />
 
           <Togglable buttonLabel='new blog' ref={blogFormRef}>
-            <CreateNewBlog
-              addBlog={addBlog}
-              blogs={blogs}
-            />
+            <CreateNewBlog toggleCreate={toggleCreate} />
           </Togglable>
 
         </div>
       }
       {blogs && blogs.map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          user={user}
-          deleteThisBlog={deleteThisBlog}
-          sortBlogs={sortBlogs}
-        />
+        <Blog key={blog.id} blog={blog} />
       )}
     </div>
   )

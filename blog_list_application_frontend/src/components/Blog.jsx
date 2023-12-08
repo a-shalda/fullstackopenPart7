@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import BlogContent from './BlogContent'
-import PropTypes from 'prop-types'
 import { setNotification } from '../reducers/notificationReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setBlogs, deleteBlog } from '../reducers/blogReducer'
 
 
-const Blog = ({ blog, deleteThisBlog, user, sortBlogs }) => {
+const Blog = ({ blog }) => {
 
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   let initialLikes = 0
   blog.likes && (initialLikes = blog.likes)
@@ -21,6 +22,24 @@ const Blog = ({ blog, deleteThisBlog, user, sortBlogs }) => {
 
   const toggleViewBlog = () => setViewBlog(!viewBlog)
 
+  const sortBlogs = (id, increasedLikes) => {
+    const updatedBlogs = blogs.map(blog => {
+      if (blog.id === id) {
+        const updatedBlog = {
+          ...blog,
+          likes: increasedLikes,
+          user: {
+            ...user
+          }
+        }
+        return updatedBlog
+      }
+      return blog
+    })
+    const sortedUpdatedBlogs = updatedBlogs.sort((a, b) => b.likes - a.likes)
+    dispatch(setBlogs(sortedUpdatedBlogs))
+  }
+
   const addLike = async () => {
     const updatedBlog = { likes: likes + 1 }
 
@@ -29,6 +48,13 @@ const Blog = ({ blog, deleteThisBlog, user, sortBlogs }) => {
       setLikes(likes + 1)
       sortBlogs(blog.id, likes + 1)
     } catch {dispatch(setNotification(['Only logged in users can update blogs', 'error'], 5000))}
+  }
+
+  const blogs = useSelector(state => state.blogs)
+
+  const deleteThisBlog = async (id, title) => {
+    const updatedBlogs = blogs.filter(blog => blog.id !== id)
+    if (window.confirm(`Removing blog ${title}`)) dispatch(deleteBlog(id, updatedBlogs))
   }
 
   const showDelete = (
@@ -62,10 +88,6 @@ const Blog = ({ blog, deleteThisBlog, user, sortBlogs }) => {
     addLike={addLike}
     showDelete={showDelete}
   />
-}
-
-Blog.propTypes = {
-  deleteThisBlog: PropTypes.func.isRequired,
 }
 
 export default Blog
