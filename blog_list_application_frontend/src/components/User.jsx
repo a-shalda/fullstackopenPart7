@@ -1,16 +1,24 @@
+import { useSelector } from 'react-redux'
+
 import {
   BrowserRouter as Router,
   Routes, Route, Link, useParams, useNavigate
 } from 'react-router-dom'
 
-const User = ({ users }) => {
+const User = () => {
 
   const id = useParams().id
+
+  const users = useSelector(state => state.users)
   console.log(users)
+
 
   if (!users) return null
 
   const user = users.find(user => user.id === id)
+
+  if (!user) return null
+
 
   return (
     <>

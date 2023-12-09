@@ -5,22 +5,27 @@ import { setNotification } from '../reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBlogs, deleteBlog } from '../reducers/blogReducer'
 
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link, useParams, useNavigate
+} from 'react-router-dom'
 
-const Blog = ({ blog }) => {
+
+const Blog = ({ singleBlog }) => {
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+  const blogs = useSelector(state => state.blogs)
+  const id = useParams().id
 
-  let initialLikes = 0
-  blog.likes && (initialLikes = blog.likes)
+  let blog
 
-  const [viewBlog, setViewBlog] = useState(false)
-  const [likes, setLikes] = useState(initialLikes)
+  if (singleBlog) blog = singleBlog
+  else {
+    blog = blogs.find(blog => blog.id === id)
+  }
 
-  let buttonLabel = ''
-  !viewBlog ? buttonLabel='view' : buttonLabel='hide'
-
-  const toggleViewBlog = () => setViewBlog(!viewBlog)
+  if (!blog) return null
 
   const sortBlogs = (id, increasedLikes) => {
     const updatedBlogs = blogs.map(blog => {
@@ -28,9 +33,6 @@ const Blog = ({ blog }) => {
         const updatedBlog = {
           ...blog,
           likes: increasedLikes,
-          user: {
-            ...user
-          }
         }
         return updatedBlog
       }
@@ -41,16 +43,13 @@ const Blog = ({ blog }) => {
   }
 
   const addLike = async () => {
-    const updatedBlog = { likes: likes + 1 }
+    const updatedBlog = { likes: blog.likes + 1 }
 
     try {
       await blogService.update(blog.id, updatedBlog)
-      setLikes(likes + 1)
-      sortBlogs(blog.id, likes + 1)
+      sortBlogs(blog.id, blog.likes + 1)
     } catch {dispatch(setNotification(['Only logged in users can update blogs', 'error'], 5000))}
   }
-
-  const blogs = useSelector(state => state.blogs)
 
   const deleteThisBlog = async (id, title) => {
     const updatedBlogs = blogs.filter(blog => blog.id !== id)
@@ -61,34 +60,30 @@ const Blog = ({ blog }) => {
     user && blog && (user.username === blog.user.name) && <button onClick={() => deleteThisBlog(blog.id, blog.title)}>remove</button>
   )
 
-  // const content = (
-  //   !viewBlog ?
-  //     <div className='blog'>
-  //       <p>{blog.title} by {blog.author} <button onClick={toggleViewBlog}>{buttonLabel}</button></p>
-  //     </div> :
-  //     <div className='blogView'>
-  //       <p>{blog.title} by {blog.author} <button onClick={toggleViewBlog}>{buttonLabel}</button></p>
-  //       <p>{blog.url}</p>
-  //       <p>Likes: {likes}
-  //         <button onClick={addLike}>like</button>
-  //       </p>
-  //       <p>{blog.user.name}</p>
-  //       {showDelete}
-  //     </div>
-  // )
+  const content = (
+    singleBlog ?
+      <div className='blog'>
+        <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}&nbsp;</Link>
+      </div>
+      :
 
+<<<<<<< HEAD
   // return content
   console.log(blog)
+=======
+      <div className='blog'>
+        <h3>{blog.title} by {blog.author}</h3>
+        <a href={blog.url}>{blog.url}</a>
+        <p>Likes: {blog.likes}
+          <button onClick={addLike}>like</button>
+        </p>
+        <p>{blog.user.name}</p>
+        {showDelete}
+      </div>
+  )
+>>>>>>> 9ddb80f (7.16-7.17)
 
-  return <BlogContent
-    blog={blog}
-    viewBlog={viewBlog}
-    toggleViewBlog={toggleViewBlog}
-    buttonLabel={buttonLabel}
-    likes={likes}
-    addLike={addLike}
-    showDelete={showDelete}
-  />
+  return content
 }
 
 export default Blog

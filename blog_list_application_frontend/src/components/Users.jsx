@@ -1,22 +1,27 @@
+<<<<<<< HEAD
 import { useEffect } from 'react'
 import userService from '../services/users'
 import { setNotification } from '../reducers/notificationReducer'
 import { setUsers } from '../reducers/allUsersReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
+=======
+import { useSelector } from 'react-redux'
+
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link, useParams, useNavigate
+} from 'react-router-dom'
+>>>>>>> 9ddb80f (7.16-7.17)
+
 
 
 const Users = () => {
+<<<<<<< HEAD
   const dispatch = useDispatch()
+=======
+>>>>>>> 9ddb80f (7.16-7.17)
   const users = useSelector(state => state.users)
-
-  useEffect(() => {
-    userService.getAllUsers().then(users => {
-      dispatch(setUsers(users))
-    })
-      .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
-
-  }, [dispatch])
 
   let table
 
@@ -33,7 +38,13 @@ const Users = () => {
           {users.map(user => {
             return (
               <tr key={user.name}>
+<<<<<<< HEAD
                 <td>{user.name}</td>
+=======
+                <td>
+                  <Link to={`/users/${user.id}`}>{user.name}&nbsp;</Link>
+                </td>
+>>>>>>> 9ddb80f (7.16-7.17)
                 <td>{user.blogs.length}</td>
               </tr>
             )

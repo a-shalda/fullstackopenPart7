@@ -3,6 +3,17 @@ import blogService from './services/blogs'
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
 
+<<<<<<< HEAD
+=======
+import Blog from './components/Blog'
+import Blogs from './components/Blogs'
+import User from './components/User'
+
+import userService from './services/users'
+import { setUsers } from './reducers/allUsersReducer'
+
+
+>>>>>>> 9ddb80f (7.16-7.17)
 import Users from './components/Users'
 import Login from './components/Login'
 import Notification from './components/Notification'
@@ -20,8 +31,6 @@ import {
 const App = () => {
 
   const user = useSelector(state => state.user)
-  const users = useSelector(state => state.users)
-  const blogs = useSelector(state => state.blogs)
   const dispatch = useDispatch()
 
   const blogFormRef = useRef()
@@ -45,11 +54,13 @@ const App = () => {
     }
   }, [dispatch])
 
-  const revokeToken = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    blogService.setToken(null)
-    dispatch(setUser(null))
-  }
+  useEffect(() => {
+    userService.getAllUsers().then(users => {
+      dispatch(setUsers(users))
+    })
+      .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
+
+  }, [dispatch])
 
 
   return (
@@ -66,6 +77,7 @@ const App = () => {
       }
       {user &&
         <div>
+<<<<<<< HEAD
           {/* <Router> */}
           {user && (
             <>
@@ -86,11 +98,27 @@ const App = () => {
           </Togglable>
 
           <Users />
+=======
+          <Router>
+            <LoggedIn />
+
+            <Routes>
+              <Route path="/" element={
+                <>
+                  <Togglable buttonLabel='new blog' ref={blogFormRef}>
+                    <CreateNewBlog toggleCreate={toggleCreate} />
+                  </Togglable>
+                  <Blogs />
+                </>
+              } />
+              <Route path="/users" element={<Users />} />
+              <Route path="/blogs/:id" element={<Blog />} />
+              <Route path="/users/:id" element={<User />} />
+            </Routes>
+          </Router>
+>>>>>>> 9ddb80f (7.16-7.17)
         </div>
       }
-      {/* {blogs && blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )} */}
     </div>
   )
 }
