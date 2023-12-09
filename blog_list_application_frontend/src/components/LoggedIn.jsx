@@ -22,7 +22,7 @@ const LoggedIn = () => {
           onClick={revokeToken}
         >Log out
         </button>
-        <h4>create new</h4>
+        <h2>create new</h2>
       </>
     )
 

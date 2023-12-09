@@ -3,14 +3,10 @@ import userService from '../services/users'
 import { setNotification } from '../reducers/notificationReducer'
 import { setUsers } from '../reducers/allUsersReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useParams, useNavigate
-} from 'react-router-dom'
+
 
 
 const Users = () => {
-
   const dispatch = useDispatch()
   const users = useSelector(state => state.users)
 
@@ -37,9 +33,7 @@ const Users = () => {
           {users.map(user => {
             return (
               <tr key={user.name}>
-                <td>
-                  <Link to={`/users/${user.id}`}>{user.name}</Link>
-                </td>
+                <td>{user.name}</td>
                 <td>{user.blogs.length}</td>
               </tr>
             )

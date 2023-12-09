@@ -2,9 +2,8 @@ import { useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
-import Blogs from './components/Blogs'
+
 import Users from './components/Users'
-import User from './components/User'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -67,33 +66,26 @@ const App = () => {
       }
       {user &&
         <div>
-          <Router>
-            {user && (
-              <>
-                <p>
-                  <Link to='/blogs'>blogs&nbsp;</Link>
-                  <Link to='/users'>users&nbsp;</Link>
-                  {user.name} logged in
-                  <button
-                    onClick={revokeToken}
-                  >Log out
-                  </button>
-                </p>
-                <h2>Blogs App</h2>
-              </>
-            )}
-            <Togglable buttonLabel='new blog' ref={blogFormRef}>
-              <CreateNewBlog toggleCreate={toggleCreate} />
-            </Togglable>
+          {/* <Router> */}
+          {user && (
+            <>
+              <p>
+                <Link to='/blogs'>blogs&nbsp;</Link>
+                <Link to='/users'>users&nbsp;</Link>
+                {user.name} logged in
+                <button
+                  onClick={revokeToken}
+                >Log out
+                </button>
+              </p>
+              <h2>Blogs App</h2>
+            </>
+          )}
+          <Togglable buttonLabel='new blog' ref={blogFormRef}>
+            <CreateNewBlog toggleCreate={toggleCreate} />
+          </Togglable>
 
-            <Routes>
-              <Route path="/blogs" element={<Blogs blogs={blogs} />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/users/:id" element={<User users={users} />} />
-            </Routes>
-          </Router>
-
-
+          <Users />
         </div>
       }
       {/* {blogs && blogs.map(blog =>
