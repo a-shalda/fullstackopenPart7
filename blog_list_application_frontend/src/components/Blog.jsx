@@ -78,6 +78,7 @@ const Blog = ({ blog }) => {
   // )
 
   // return content
+  console.log(blog)
 
   return <BlogContent
     blog={blog}

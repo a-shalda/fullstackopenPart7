@@ -7,7 +7,6 @@ const Blogs = ({ blogs }) => {
   if (blogs) {
     allBlogs = blogs.map(blog => <Blog key={blog.id} blog={blog}/>)
   }
-
   return allBlogs
 }
 
