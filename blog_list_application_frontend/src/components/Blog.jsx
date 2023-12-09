@@ -67,10 +67,6 @@ const Blog = ({ singleBlog }) => {
       </div>
       :
 
-<<<<<<< HEAD
-  // return content
-  console.log(blog)
-=======
       <div className='blog'>
         <h3>{blog.title} by {blog.author}</h3>
         <a href={blog.url}>{blog.url}</a>
@@ -81,7 +77,6 @@ const Blog = ({ singleBlog }) => {
         {showDelete}
       </div>
   )
->>>>>>> 9ddb80f (7.16-7.17)
 
   return content
 }

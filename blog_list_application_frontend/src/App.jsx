@@ -3,8 +3,6 @@ import blogService from './services/blogs'
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
 
-<<<<<<< HEAD
-=======
 import Blog from './components/Blog'
 import Blogs from './components/Blogs'
 import User from './components/User'
@@ -13,7 +11,6 @@ import userService from './services/users'
 import { setUsers } from './reducers/allUsersReducer'
 
 
->>>>>>> 9ddb80f (7.16-7.17)
 import Users from './components/Users'
 import Login from './components/Login'
 import Notification from './components/Notification'
@@ -77,28 +74,6 @@ const App = () => {
       }
       {user &&
         <div>
-<<<<<<< HEAD
-          {/* <Router> */}
-          {user && (
-            <>
-              <p>
-                <Link to='/blogs'>blogs&nbsp;</Link>
-                <Link to='/users'>users&nbsp;</Link>
-                {user.name} logged in
-                <button
-                  onClick={revokeToken}
-                >Log out
-                </button>
-              </p>
-              <h2>Blogs App</h2>
-            </>
-          )}
-          <Togglable buttonLabel='new blog' ref={blogFormRef}>
-            <CreateNewBlog toggleCreate={toggleCreate} />
-          </Togglable>
-
-          <Users />
-=======
           <Router>
             <LoggedIn />
 
@@ -116,7 +91,6 @@ const App = () => {
               <Route path="/users/:id" element={<User />} />
             </Routes>
           </Router>
->>>>>>> 9ddb80f (7.16-7.17)
         </div>
       }
     </div>

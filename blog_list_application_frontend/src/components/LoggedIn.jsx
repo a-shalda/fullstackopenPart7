@@ -21,14 +21,6 @@ const LoggedIn = () => {
   const content =
     user && (
       <>
-<<<<<<< HEAD
-        <p>{user.name} logged in</p>
-        <button
-          onClick={revokeToken}
-        >Log out
-        </button>
-        <h2>create new</h2>
-=======
         <p>
           <Link to='/'>blogs&nbsp;</Link>
           <Link to='/users'>users&nbsp;</Link>
@@ -39,7 +31,6 @@ const LoggedIn = () => {
           </button>
         </p>
         <h2>Blogs App</h2>
->>>>>>> 9ddb80f (7.16-7.17)
       </>
     )
 
