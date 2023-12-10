@@ -10,8 +10,6 @@ const User = () => {
   const id = useParams().id
 
   const users = useSelector(state => state.users)
-  console.log(users)
-
 
   if (!users) return null
 

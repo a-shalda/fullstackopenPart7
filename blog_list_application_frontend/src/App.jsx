@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import blogService from './services/blogs'
-import commentsService from './services/comments'
 
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
@@ -12,6 +11,9 @@ import User from './components/User'
 
 import userService from './services/users'
 import { setUsers } from './reducers/allUsersReducer'
+import commentsService from './services/comments'
+import { setComments } from './reducers/commentReducer'
+
 
 import Users from './components/Users'
 import Login from './components/Login'
@@ -60,6 +62,15 @@ const App = () => {
       .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
 
   }, [dispatch])
+
+  useEffect(() => {
+    commentsService.getComments('id').then(comments => {
+      dispatch(setComments(comments))
+    })
+      .catch(error => error)
+
+  }, [dispatch])
+
 
   return (
     <div>

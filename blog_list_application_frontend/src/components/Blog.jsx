@@ -74,7 +74,7 @@ const Blog = ({ singleBlog }) => {
         <p>Likes: {blog.likes}
           <button onClick={addLike}>like</button>
         </p>
-        <p>{blog.user.name}</p>
+        <p>Added by {blog.user.name}</p>
         {showDelete}
         <Comments />
       </div>

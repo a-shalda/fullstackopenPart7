@@ -11,6 +11,8 @@ const CreateNewBlog = ({ toggleCreate }) => {
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
+
 
   const addBlog = (event) => {
     event.preventDefault()
@@ -21,7 +23,7 @@ const CreateNewBlog = ({ toggleCreate }) => {
       url: url
     }
 
-    dispatch(createBlog(blogObject, user))
+    dispatch(createBlog(blogObject, user, users))
 
     setTitle('')
     setAuthor('')
