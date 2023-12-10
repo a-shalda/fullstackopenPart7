@@ -11,6 +11,7 @@ const Blog = ({ singleBlog }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
   const blogs = useSelector(state => state.blogs)
   const id = useParams().id
 
@@ -47,14 +48,14 @@ const Blog = ({ singleBlog }) => {
     } catch {dispatch(setNotification(['Only logged in users can update blogs', 'error'], 5000))}
   }
 
-  const deleteThisBlog = async (id, title) => {
+  const deleteThisBlog = async (id, title, users, user) => {
     const updatedBlogs = blogs.filter(blog => blog.id !== id)
-    if (window.confirm(`Removing blog ${title}`)) dispatch(deleteBlog(id, updatedBlogs))
+    if (window.confirm(`Removing blog ${title}`)) dispatch(deleteBlog(id, updatedBlogs, users, user))
     navigate('/')
   }
 
   const showDelete = (
-    user && blog && (user.username === blog.user.name) && <button onClick={() => deleteThisBlog(blog.id, blog.title)}>remove</button>
+    user && blog && (user.username === blog.user.name) && <button onClick={() => deleteThisBlog(blog.id, blog.title, users, user)}>remove</button>
   )
 
   const content = (

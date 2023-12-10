@@ -20,11 +20,25 @@ const blogSlice = createSlice({
   },
 })
 
-export const deleteBlog = (id, updatedBlogs) => {
+export const deleteBlog = (id, updatedBlogs, users, user) => {
   return async dispatch => {
     try {
       await blogService.deleteBlog(id)
       dispatch(setBlogs(updatedBlogs))
+
+      const updatedUsers = users.map(u => {
+        if (u.id === user.id) {
+          const updatedUser = {
+            ...u,
+            blogs: [
+              ...u.blogs.filter(blog => blog.id !== id)
+            ]
+          }
+          return updatedUser
+        }
+        return u
+      })
+      dispatch(setUsers(updatedUsers))
     } catch {
       dispatch(setNotification(['Network error', 'error'], 5000))
     }
