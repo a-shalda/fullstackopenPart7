@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import blogService from '../services/blogs'
-import BlogContent from './BlogContent'
+import Comments from './Comments'
 import { setNotification } from '../reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBlogs, deleteBlog } from '../reducers/blogReducer'
@@ -14,6 +13,7 @@ import {
 const Blog = ({ singleBlog }) => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector(state => state.user)
   const blogs = useSelector(state => state.blogs)
   const id = useParams().id
@@ -54,6 +54,7 @@ const Blog = ({ singleBlog }) => {
   const deleteThisBlog = async (id, title) => {
     const updatedBlogs = blogs.filter(blog => blog.id !== id)
     if (window.confirm(`Removing blog ${title}`)) dispatch(deleteBlog(id, updatedBlogs))
+    navigate('/')
   }
 
   const showDelete = (
@@ -75,6 +76,7 @@ const Blog = ({ singleBlog }) => {
         </p>
         <p>{blog.user.name}</p>
         {showDelete}
+        <Comments />
       </div>
   )
 

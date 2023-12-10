@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import blogService from './services/blogs'
+import commentsService from './services/comments'
+
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
+import Comments from './components/Comments'
 
 import Blog from './components/Blog'
 import Blogs from './components/Blogs'
@@ -9,7 +12,6 @@ import User from './components/User'
 
 import userService from './services/users'
 import { setUsers } from './reducers/allUsersReducer'
-
 
 import Users from './components/Users'
 import Login from './components/Login'
@@ -59,7 +61,6 @@ const App = () => {
 
   }, [dispatch])
 
-
   return (
     <div>
       <Notification />
@@ -88,6 +89,7 @@ const App = () => {
               } />
               <Route path="/users" element={<Users />} />
               <Route path="/blogs/:id" element={<Blog />} />
+              <Route path="/blogs/:id/comments" element={<Comments />} />
               <Route path="/users/:id" element={<User />} />
             </Routes>
           </Router>
