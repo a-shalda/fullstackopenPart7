@@ -1,32 +1,27 @@
 import { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import blogService from './services/blogs'
+import userService from './services/users'
+import commentsService from './services/comments'
+
+import { setBlogs } from './reducers/blogReducer'
+import { setUser } from './reducers/userReducer'
+import { setUsers } from './reducers/allUsersReducer'
+import { setComments } from './reducers/commentReducer'
+import { setNotification } from './reducers/notificationReducer'
 
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
 import Comments from './components/Comments'
-
 import Blog from './components/Blog'
 import Blogs from './components/Blogs'
 import User from './components/User'
-
-import userService from './services/users'
-import { setUsers } from './reducers/allUsersReducer'
-import commentsService from './services/comments'
-import { setComments } from './reducers/commentReducer'
-
-
 import Users from './components/Users'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import { setNotification } from './reducers/notificationReducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { setBlogs } from './reducers/blogReducer'
-import { setUser } from './reducers/userReducer'
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useParams, useNavigate
-} from 'react-router-dom'
 
 
 const App = () => {

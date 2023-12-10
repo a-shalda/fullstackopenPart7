@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setComments } from '../reducers/commentReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useParams, useNavigate
-} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 const Comments = () => {
 

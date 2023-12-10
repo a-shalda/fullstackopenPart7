@@ -3,11 +3,7 @@ import Comments from './Comments'
 import { setNotification } from '../reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBlogs, deleteBlog } from '../reducers/blogReducer'
-
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useParams, useNavigate
-} from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 
 
 const Blog = ({ singleBlog }) => {

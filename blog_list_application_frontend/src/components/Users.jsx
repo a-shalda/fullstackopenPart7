@@ -1,32 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useRef } from 'react'
-import userService from '../services/users'
-import { setUsers } from '../reducers/allUsersReducer'
-import { setNotification } from '../reducers/notificationReducer'
-
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useParams, useNavigate
-} from 'react-router-dom'
-
-
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Users = () => {
-  const dispatch = useDispatch()
-
-
-  // useEffect(() => {
-  //   userService.getAllUsers().then(users => {
-  //     dispatch(setUsers(users))
-  //   })
-  //     .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
-
-  // }, [dispatch])
 
   const users = useSelector(state => state.users)
-
-
-
   let table
 
   if (users) {
@@ -53,7 +30,6 @@ const Users = () => {
       </table>
     )
   }
-
 
   return table
 }

@@ -1,10 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 import { setUser } from '../reducers/userReducer'
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useParams, useNavigate
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const LoggedIn = () => {

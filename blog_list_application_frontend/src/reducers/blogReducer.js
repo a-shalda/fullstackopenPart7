@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
 import { setNotification } from './notificationReducer'
 import { setUsers } from '../reducers/allUsersReducer'
-import { useSelector } from 'react-redux'
-
 
 
 const blogSlice = createSlice({
