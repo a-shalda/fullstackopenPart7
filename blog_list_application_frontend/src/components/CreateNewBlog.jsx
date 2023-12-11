@@ -13,7 +13,6 @@ const CreateNewBlog = ({ toggleCreate }) => {
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
 
-
   const addBlog = (event) => {
     event.preventDefault()
 

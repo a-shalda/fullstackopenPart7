@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import blogService from './services/blogs'
 import userService from './services/users'
@@ -19,7 +19,9 @@ import Blog from './components/Blog'
 import Blogs from './components/Blogs'
 import User from './components/User'
 import Users from './components/Users'
+import WelcomeScreen from './components/welcomeScreen'
 import Login from './components/Login'
+import Registration from './components/Registration'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
@@ -59,7 +61,7 @@ const App = () => {
   }, [dispatch])
 
   useEffect(() => {
-    commentsService.getComments('id').then(comments => {
+    commentsService.getComments().then(comments => {
       dispatch(setComments(comments))
     })
       .catch(error => error)
@@ -70,37 +72,29 @@ const App = () => {
   return (
     <div>
       <Notification />
+      <Router>
 
-      {!user &&
-        <>
-          <h2>Blogs App</h2>
-          <Togglable buttonLabel='log in'>
-            <Login />
-          </Togglable>
-        </>
-      }
-      {user &&
-        <div>
-          <Router>
-            <LoggedIn />
+        {user && <LoggedIn />}
 
-            <Routes>
-              <Route path="/" element={
-                <>
-                  <Togglable buttonLabel='new blog' ref={blogFormRef}>
-                    <CreateNewBlog toggleCreate={toggleCreate} />
-                  </Togglable>
-                  <Blogs />
-                </>
-              } />
-              <Route path="/users" element={<Users />} />
-              <Route path="/blogs/:id" element={<Blog />} />
-              <Route path="/blogs/:id/comments" element={<Comments />} />
-              <Route path="/users/:id" element={<User />} />
-            </Routes>
-          </Router>
-        </div>
-      }
+        <Routes>
+          <Route path="/" element={
+            (user ?  <>
+              <Togglable buttonLabel='new blog' ref={blogFormRef}>
+                <CreateNewBlog toggleCreate={toggleCreate} />
+              </Togglable>
+              <Blogs />
+            </> : <WelcomeScreen />)
+
+          } />
+          <Route path="/users" element={user && <Users />} />
+          <Route path="/blogs" element={user && <Blogs />} />
+          <Route path="/blogs/:id" element={user && <Blog />} />
+          <Route path="/blogs/:id/comments" element={user && <Comments />} />
+          <Route path="/users/:id" element={user && <User />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+        </Routes>
+      </Router>
     </div>
   )
 }

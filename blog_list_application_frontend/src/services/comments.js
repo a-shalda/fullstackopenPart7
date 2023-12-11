@@ -2,8 +2,8 @@ import axios from 'axios'
 const baseUrl = '/api/blogs'
 
 
-const getComments = (url) => {
-  const request = axios.get(`${baseUrl}/${url}/comments`)
+const getComments = () => {
+  const request = axios.get(`${baseUrl}/comments`)
   return request.then(response => response.data)
 }
 

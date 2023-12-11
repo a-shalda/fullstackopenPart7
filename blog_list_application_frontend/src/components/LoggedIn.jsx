@@ -1,18 +1,20 @@
 import { useSelector, useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 import { setUser } from '../reducers/userReducer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const LoggedIn = () => {
 
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const revokeToken = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     blogService.setToken(null)
     dispatch(setUser(null))
+    navigate('/')
   }
 
   const content =
@@ -27,7 +29,7 @@ const LoggedIn = () => {
           >Log out
           </button>
         </p>
-        <h2>Blogs App</h2>
+        <h2>LinkApp</h2>
       </>
     )
 
