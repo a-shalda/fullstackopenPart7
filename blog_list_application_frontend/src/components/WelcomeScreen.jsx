@@ -5,11 +5,17 @@ const WelcomeScreen = () => {
 
   return (
     <>
-      <h2>LinkApp</h2>
-      <h3>Welcome</h3>
-      <Link to='/login'>Login</Link>
-      <span> or </span>
-      <Link to='/registration'>Register</Link>
+      <div className='header'>
+        <div className='header__links'>
+          <div className='header__welcome'>
+            <Link to='/login'>Login</Link>
+            <Link to='/registration'>Sign up</Link>
+          </div>
+        </div>
+      </div>
+      <>
+        <h2>Blogs App</h2>
+      </>
     </>
   )
 }

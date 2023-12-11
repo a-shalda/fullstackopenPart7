@@ -20,16 +20,23 @@ const LoggedIn = () => {
   const content =
     user && (
       <>
-        <p>
-          <Link to='/'>blogs&nbsp;</Link>
-          <Link to='/users'>users&nbsp;</Link>
-          {user.name} logged in
-          <button
-            onClick={revokeToken}
-          >Log out
-          </button>
-        </p>
-        <h2>LinkApp</h2>
+        <div className='header'>
+          <div className="header__links">
+            <div className='header__left'>
+              <Link to='/'>Blogs&nbsp;</Link>
+              <Link to='/users'>Users&nbsp;</Link>
+              <Link to='/create'>Create&nbsp;</Link>
+            </div>
+            <div className='header__right'>
+              {user.name}
+              <button
+                onClick={revokeToken}
+              >Log out
+              </button>
+            </div>
+          </div>
+        </div>
+        <h2>Blogs App</h2>
       </>
     )
 

@@ -8,7 +8,7 @@ const Users = () => {
 
   if (users) {
     table = (
-      <table>
+      <table className='table'>
         <thead>
           <tr>
             <td><h4>Users</h4></td>

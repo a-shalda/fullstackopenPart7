@@ -78,16 +78,11 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={
-            (user ?  <>
-              <Togglable buttonLabel='new blog' ref={blogFormRef}>
-                <CreateNewBlog toggleCreate={toggleCreate} />
-              </Togglable>
-              <Blogs />
-            </> : <WelcomeScreen />)
-
+            user ? <Blogs /> : <WelcomeScreen />
           } />
           <Route path="/users" element={user && <Users />} />
           <Route path="/blogs" element={user && <Blogs />} />
+          <Route path="/create" element={user && <CreateNewBlog />} />
           <Route path="/blogs/:id" element={user && <Blog />} />
           <Route path="/blogs/:id/comments" element={user && <Comments />} />
           <Route path="/users/:id" element={user && <User />} />

@@ -12,15 +12,14 @@ const User = () => {
   if (!user) return null
 
   return (
-    <>
-      <h2>{user.name}</h2>
-      <h4>Added blogs</h4>
+    <div className='user'>
+      <h3>{user.name}&apos;s blogs</h3>
       {user && user.blogs.map(blog => {
         return (
           <li key={blog.id}>{blog.title}</li>
         )
       })}
-    </>
+    </div>
   )
 
 }

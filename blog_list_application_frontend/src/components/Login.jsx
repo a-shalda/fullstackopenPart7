@@ -37,12 +37,17 @@ const Login = () => {
 
   return (
     <>
-      <h2>LinkApp</h2>
-      <h3>Login</h3>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
+      <div className="header">
+        <div className='header__links'>
+          <p>Login</p>
+        </div>
+      </div>
+      <h2>Blogs App</h2>
+      <form className='form' onSubmit={handleLogin}>
+        <div className='form__row'>
+          Username
           <input
+            className='form__input'
             type="text"
             id='username'
             value={username}
@@ -50,9 +55,10 @@ const Login = () => {
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
-        <div>
-          password
+        <div className='form__row'>
+          Password
           <input
+            className='form__input'
             type="password"
             id='password'
             value={password}
@@ -60,7 +66,7 @@ const Login = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit" id="login-button">log in</button>
+        <button type="submit" id="login-button">Log in</button>
         <button type="button" id="cancel" onClick={handleCancel}>Cancel</button>
       </form>
     </>

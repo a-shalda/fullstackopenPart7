@@ -13,7 +13,7 @@ const Blogs = () => {
   if (blogs) {
     allBlogs = blogs.map(blog => <Blog key={blog.id} singleBlog={blog}/>)
   }
-  return allBlogs
+  return <div className='blogs'>{allBlogs}</div>
 }
 
 export default Blogs

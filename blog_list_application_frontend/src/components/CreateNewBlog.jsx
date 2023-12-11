@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
+import { useNavigate } from 'react-router-dom'
 
 
 const CreateNewBlog = ({ toggleCreate }) => {
@@ -10,6 +11,7 @@ const CreateNewBlog = ({ toggleCreate }) => {
   const [url, setUrl] = useState('')
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
 
@@ -30,11 +32,14 @@ const CreateNewBlog = ({ toggleCreate }) => {
     toggleCreate()
   }
 
+  const handleCancel = () => navigate('/')
+
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        title
+    <form className='form' onSubmit={addBlog}>
+      <div className='form__row'>
+        Title
         <input
+          className='form__input'
           type="text"
           id='title'
           value={title}
@@ -43,9 +48,10 @@ const CreateNewBlog = ({ toggleCreate }) => {
           onChange={({ target }) => setTitle(target.value)}
         />
       </div>
-      <div>
-        author
+      <div className='form__row'>
+        Author
         <input
+          className='form__input'
           type="text"
           id='author'
           value={author}
@@ -54,9 +60,10 @@ const CreateNewBlog = ({ toggleCreate }) => {
           onChange={({ target }) => setAuthor(target.value)}
         />
       </div>
-      <div>
-        url
+      <div className='form__row'>
+        URL
         <input
+          className='form__input'
           type="text"
           id='url'
           value={url}
@@ -66,6 +73,7 @@ const CreateNewBlog = ({ toggleCreate }) => {
         />
       </div>
       <button type="submit">Create</button>
+      <button type="button" onClick={handleCancel}>Cancel</button>
     </form>
   )
 }

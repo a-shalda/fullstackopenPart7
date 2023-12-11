@@ -40,12 +40,17 @@ const Registration = () => {
 
   return (
     <>
-      <h2>LinkApp</h2>
-      <h3>Registration</h3>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
+      <div className="header">
+        <div className='header__links'>
+          <p>Registration</p>
+        </div>
+      </div>
+      <h2>Blogs App</h2>
+      <form className='form' onSubmit={handleLogin}>
+        <div className='form__row'>
+          Username
           <input
+            className='form__input'
             type="text"
             id='username'
             value={username}
@@ -53,9 +58,10 @@ const Registration = () => {
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
-        <div>
-          name
+        <div className='form__row'>
+          Name
           <input
+            className='form__input'
             type="text"
             id='name'
             value={name}
@@ -63,9 +69,10 @@ const Registration = () => {
             onChange={({ target }) => setName(target.value)}
           />
         </div>
-        <div>
-          password
+        <div className='form__row'>
+          Password
           <input
+            className='form__input'
             type="password"
             id='password'
             value={password}
@@ -73,7 +80,7 @@ const Registration = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit" id="register-button">Register</button>
+        <button type="submit" id="register-button">Sign up</button>
         <button type="button" id="cancel" onClick={handleCancel}>Cancel</button>
       </form>
     </>

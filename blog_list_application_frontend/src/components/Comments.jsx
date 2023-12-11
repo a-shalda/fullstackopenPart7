@@ -39,18 +39,22 @@ const Comments = () => {
   }
 
   return (
-    <>
+    <div className='comments'>
       <h4>Comments</h4>
-      <form onSubmit={handleForm}>
-        <input
-          type='text'
-          value={newComment}
-          onChange={({ target }) => setNewComment(target.value)}
-        />
-        <button type='submit'>add comment</button>
+      <form className='form' onSubmit={handleForm}>
+        <div className='form__row'>
+          <input
+            className='form__input'
+            type='text'
+            value={newComment}
+            placeholder='your comment...'
+            onChange={({ target }) => setNewComment(target.value)}
+          />
+        </div>
+        <button type='submit'>Post</button>
       </form>
       {mappedComments}
-    </>
+    </div>
   )
 }
 
