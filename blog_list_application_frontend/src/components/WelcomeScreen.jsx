@@ -9,7 +9,7 @@ const WelcomeScreen = () => {
         <div className='header__links'>
           <div className='header__welcome'>
             <Link to='/login'>Login</Link>
-            <Link to='/registration'>Sign up</Link>
+            <Link to='/signup'>Sign up</Link>
           </div>
         </div>
       </div>

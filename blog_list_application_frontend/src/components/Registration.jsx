@@ -42,7 +42,7 @@ const Registration = () => {
     <>
       <div className="header">
         <div className='header__links'>
-          <p>Registration</p>
+          <p>Signup</p>
         </div>
       </div>
       <h2>Blogs App</h2>

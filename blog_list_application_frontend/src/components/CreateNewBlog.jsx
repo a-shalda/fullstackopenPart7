@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createBlog } from '../reducers/blogReducer'
+import { addBlog } from '../reducers/blogReducer'
 import { useNavigate } from 'react-router-dom'
+import blogService from '../services/blogs'
+import { setNotification } from '../reducers/notificationReducer'
+import { setUsers } from '../reducers/allUsersReducer'
 
 
-const CreateNewBlog = ({ toggleCreate }) => {
+const CreateNewBlog = () => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -15,7 +18,7 @@ const CreateNewBlog = ({ toggleCreate }) => {
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
 
-  const addBlog = (event) => {
+  const addThisBlog = async (event) => {
     event.preventDefault()
 
     const blogObject = {
@@ -24,19 +27,50 @@ const CreateNewBlog = ({ toggleCreate }) => {
       url: url
     }
 
-    dispatch(createBlog(blogObject, user, users))
+    try {
+      const blog = await blogService.create(blogObject)
+      const updatedBlog = {
+        author: blog.author,
+        id: blog.id,
+        likes: blog.likes,
+        title: blog.title,
+        url: blog.url,
+        user: {
+          name: user.name
+        }
+      }
+      dispatch(addBlog(updatedBlog))
+      dispatch(setNotification([`A new blog ${updatedBlog.title} by ${updatedBlog.author} added`, 'success'], 5000))
+
+      const updatedUsers = users.map(u => {
+        if (u.id === user.id) {
+          const updatedUser = {
+            ...u,
+            blogs: [
+              ...u.blogs.concat(updatedBlog)
+            ]
+          }
+          return updatedUser
+        }
+        return u
+      })
+
+      dispatch(setUsers(updatedUsers))
+      navigate('/')
+    }
+    catch (exception) {dispatch(setNotification(['Invalid blog', 'error'], 5000))}
+
 
     setTitle('')
     setAuthor('')
     setUrl('')
-    toggleCreate()
   }
 
   const handleCancel = () => navigate('/')
 
   return (
     <div className='wrapperForm'>
-      <form className='form' onSubmit={addBlog}>
+      <form className='form' onSubmit={addThisBlog}>
         <div className='form__row'>
         Title
           <input

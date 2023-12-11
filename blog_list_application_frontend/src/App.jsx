@@ -23,16 +23,12 @@ import WelcomeScreen from './components/welcomeScreen'
 import Login from './components/Login'
 import Registration from './components/Registration'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 
 
 const App = () => {
 
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
-
-  const blogFormRef = useRef()
-  const toggleCreate = () => blogFormRef.current.toggleVisibility()
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
@@ -87,7 +83,7 @@ const App = () => {
           <Route path="/blogs/:id/comments" element={user && <Comments />} />
           <Route path="/users/:id" element={user && <User />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/registration" element={<Registration />} />
+          <Route path="/signup" element={<Registration />} />
         </Routes>
       </Router>
     </div>
