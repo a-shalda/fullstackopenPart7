@@ -27,6 +27,7 @@ const Login = () => {
       blogService.setToken(user.token)
       dispatch(setUser(user))
       navigate('/')
+      window.location.reload()
     } catch (exception) { dispatch(setNotification(['Wrong credentials', 'error'], 5000)) }
 
     setUsername('')

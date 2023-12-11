@@ -24,7 +24,6 @@ const Registration = () => {
         username, name, password,
       })
       navigate('/login')
-      window.location.reload()
     } catch (exception) { dispatch(setNotification(['Wrong credentials', 'error'], 5000)) }
 
     setUsername('')
