@@ -46,43 +46,45 @@ const Registration = () => {
         </div>
       </div>
       <h2>Blogs App</h2>
-      <form className='form' onSubmit={handleLogin}>
-        <div className='form__row'>
+      <div className='wrapperForm'>
+        <form className='form' onSubmit={handleLogin}>
+          <div className='form__row'>
           Username
-          <input
-            className='form__input'
-            type="text"
-            id='username'
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div className='form__row'>
+            <input
+              className='form__input'
+              type="text"
+              id='username'
+              value={username}
+              name="Username"
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </div>
+          <div className='form__row'>
           Name
-          <input
-            className='form__input'
-            type="text"
-            id='name'
-            value={name}
-            name="Name"
-            onChange={({ target }) => setName(target.value)}
-          />
-        </div>
-        <div className='form__row'>
+            <input
+              className='form__input'
+              type="text"
+              id='name'
+              value={name}
+              name="Name"
+              onChange={({ target }) => setName(target.value)}
+            />
+          </div>
+          <div className='form__row'>
           Password
-          <input
-            className='form__input'
-            type="password"
-            id='password'
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit" id="register-button">Sign up</button>
-        <button type="button" id="cancel" onClick={handleCancel}>Cancel</button>
-      </form>
+            <input
+              className='form__input'
+              type="password"
+              id='password'
+              value={password}
+              name="Password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+          <button type="submit" id="register-button">Sign up</button>
+          <button type="button" id="cancel" onClick={handleCancel}>Cancel</button>
+        </form>
+      </div>
     </>
   )
 }

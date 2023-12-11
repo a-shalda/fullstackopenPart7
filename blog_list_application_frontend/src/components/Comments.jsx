@@ -44,7 +44,7 @@ const Comments = () => {
       <form className='form' onSubmit={handleForm}>
         <div className='form__row'>
           <input
-            className='form__input'
+            className='form__input--comment'
             type='text'
             value={newComment}
             placeholder='your comment...'

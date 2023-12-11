@@ -55,21 +55,21 @@ const Blog = ({ singleBlog }) => {
   }
 
   const showDelete = (
-    user && blog && (user.username === blog.user.name) && <button onClick={() => deleteThisBlog(blog.id, blog.title, users, user)}>remove</button>
+    user && blog && (user.username === blog.user.name) && <button onClick={() => deleteThisBlog(blog.id, blog.title, users, user)}>Remove</button>
   )
 
   const content = (
     singleBlog ?
-      <div className='blog'>
+      <div>
         <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}&nbsp;</Link>
       </div>
       :
 
       <div className='blog'>
         <h3>{blog.title} by {blog.author}</h3>
-        <a href={blog.url}>{blog.url}</a>
-        <p>Likes: {blog.likes}
-          <button onClick={addLike}>like</button>
+        <a className='blogLink' href={blog.url} target='_blank' rel='noopener noreferrer'>{blog.url}</a>
+        <p>Likes: {blog.likes} &nbsp;&nbsp;&nbsp;
+          <button onClick={addLike}>Like</button>
         </p>
         <p>Added by {blog.user.name}</p>
         {showDelete}
