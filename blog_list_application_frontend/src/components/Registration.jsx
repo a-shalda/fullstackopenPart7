@@ -23,12 +23,8 @@ const Registration = () => {
       const user = await registerService.register({
         username, name, password,
       })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      dispatch(setUser(user))
-      navigate('/')
+      navigate('/login')
+      window.location.reload()
     } catch (exception) { dispatch(setNotification(['Wrong credentials', 'error'], 5000)) }
 
     setUsername('')
