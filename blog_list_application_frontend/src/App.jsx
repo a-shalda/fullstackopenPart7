@@ -1,16 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import blogService from './services/blogs'
-import userService from './services/users'
-import commentsService from './services/comments'
 
-import { setBlogs } from './reducers/blogReducer'
 import { setUser } from './reducers/userReducer'
-import { setUsers } from './reducers/allUsersReducer'
-import { setComments } from './reducers/commentReducer'
-import { setNotification } from './reducers/notificationReducer'
 
 import CreateNewBlog from './components/CreateNewBlog'
 import LoggedIn from './components/LoggedIn'
@@ -31,37 +25,12 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then(blogs => {
-      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
-      dispatch(setBlogs(sortedBlogs))
-    })
-      .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
-
-  }, [dispatch])
-
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       dispatch(setUser(user))
       blogService.setToken(user.token)
     }
-  }, [dispatch])
-
-  useEffect(() => {
-    userService.getAllUsers().then(users => {
-      dispatch(setUsers(users))
-    })
-      .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
-
-  }, [dispatch])
-
-  useEffect(() => {
-    commentsService.getComments().then(comments => {
-      dispatch(setComments(comments))
-    })
-      .catch(error => error)
-
   }, [dispatch])
 
 

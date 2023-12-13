@@ -1,7 +1,17 @@
 import { useSelector, useDispatch } from 'react-redux'
+
+import userService from '../services/users'
+import commentsService from '../services/comments'
 import blogService from '../services/blogs'
+
 import { setUser } from '../reducers/userReducer'
 import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+
+import { setBlogs } from '../reducers/blogReducer'
+import { setUsers } from '../reducers/allUsersReducer'
+import { setComments } from '../reducers/commentReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 
 const LoggedIn = () => {
@@ -16,6 +26,31 @@ const LoggedIn = () => {
     dispatch(setUser(null))
     navigate('/')
   }
+
+  useEffect(() => {
+    blogService.getAll().then(blogs => {
+      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+      dispatch(setBlogs(sortedBlogs))
+    })
+      .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
+
+  }, [dispatch])
+
+  useEffect(() => {
+    userService.getAllUsers().then(users => {
+      dispatch(setUsers(users))
+    })
+      .catch(error => dispatch(setNotification(['Network error', 'error'], 5000)))
+
+  }, [dispatch])
+
+  useEffect(() => {
+    commentsService.getComments().then(comments => {
+      dispatch(setComments(comments))
+    })
+      .catch(error => error)
+
+  }, [dispatch])
 
   const content =
     user && (
